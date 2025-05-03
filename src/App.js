@@ -1,6 +1,6 @@
 import AnalyticPage from './AnalyticPage';
 import SearchPage from './SearchPage';
-import { BrowserRouter } from 'react-router-dom';
+import { Routes, Route, BrowserRouter } from 'react-router-dom';
 import { useState } from 'react';
 
 function App() {
@@ -8,7 +8,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<SearchPage/>}/>
-        <Route path="/Analysis" element={<AnalyticPage/}/>
+        <Route path="/Analysis" element={<AnalyticPage/>}/>
       </Routes>
     </BrowserRouter>
   );

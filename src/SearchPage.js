@@ -1,21 +1,47 @@
-import React from "react";
+import React, { useState } from "react";
 
 function SearchPage(){
+    const [name, setName] = useState("");
+    const [athleteList, setAthleteList] = useState([]);
+
     async function handleAdd(event){
         event.preventDefault();
         const backendEndpoint = 'http://127.0.0.1:5000';
-        fetch(backendEndpoint)
-            .then(response => response.json())
-            .then(data => {
-            // Logic here
-             })
-             .catch(error => console.error('GET error:', error));
+        try{
+            const response = await fetch(backendEndpoint, {
+                method: "POST",
+                headers:{
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    name,
+                }),
+            });
+
+            const data = await response.json();
+        }
+        catch(error){
+            console.error("Error:", error)
+        }
+    }
+
+    function handleSubmit(event){
+        event.preventDefault();
     }
 
     
 
     return(
-        <div></div>
+        <div>
+            <form onSubmit={handleSubmit}>
+                <label for="athletSearch">Enter Athletes Name: </label>
+                <input id="athleteSearch" onChange={(e) => setName(e.target.value.split(" "))}></input>
+                <button id="addAthlete" onClick={handleAdd}>Add</button>
+                <br/>
+                <button id="submit" type="submit">Submit</button>
+                {name}
+            </form>
+        </div>
     )
 }
 
