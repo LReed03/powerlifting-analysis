@@ -13,11 +13,30 @@ def fetchAthleteInfo(name):
 
 
     soup = BeautifulSoup(r.content, 'html.parser')
-    title = soup.find("h1")
-    if title and "disambiguation" in title.text.lower():
+    name = soup.find("h1").text.strip()
+    gender = name[-3:]
+    name = name[:-4]
+    maxSquat = soup.find("td", class_="squat").text.strip()
+    maxBench = soup.find("td", class_="bench").text.strip()
+    maxDL = soup.find("td", class_="deadlift").text.strip()
+    tables = soup.find_all("table")
+    competitionTable = tables[1]
+    rows = competitionTable.find_all("tr")
+    mostRecentRow = rows[1]
+    cols = mostRecentRow.find_all("td")
+    mostRecentLocation = cols[3].text.strip()
+        
+
+    if name and "disambiguation" in name.lower():
         return jsonify({'title': 'Multiple'})
 
-    return jsonify({'title': title.text.strip() if title else 'No title found'})
+    return jsonify({'name': name if name else 'No name found', 'options': {'maxlifts' : {'squat': maxSquat,
+    'bench': maxBench,
+    'deadlift': maxDL},
+    'location': mostRecentLocation,
+    'gender': gender
+    }
+    })                                                                         
 
 
 
