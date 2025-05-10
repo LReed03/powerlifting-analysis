@@ -30,12 +30,12 @@ def fetchAthleteInfo(name):
     if name and "disambiguation" in name.lower():
         return jsonify({'title': 'Multiple'})
 
-    return jsonify({'name': name if name else 'No name found', 'options': {'maxlifts' : {'squat': maxSquat,
+    return jsonify({'name': name if name else 'No name found', 'options': [{'maxlifts' : {'squat': maxSquat,
     'bench': maxBench,
     'deadlift': maxDL},
     'location': mostRecentLocation,
     'gender': gender
-    }
+    }]
     })                                                                         
 
 

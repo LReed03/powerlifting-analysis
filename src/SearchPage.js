@@ -4,6 +4,10 @@ function SearchPage(){
     const [name, setName] = useState("");
     const [athleteList, setAthleteList] = useState([]);
 
+    const addAthlete = (athlete) => {
+        setAthleteList(prevList => [...prevList, athlete]);
+    }
+
     async function handleAdd(event){
         event.preventDefault();
         const backendEndpoint = `http://127.0.0.1:5000/${name}`;
@@ -17,7 +21,11 @@ function SearchPage(){
             });
 
             const data = await response.json();
-            console.log(data)
+            addAthlete(data)
+            console.log(data.name)
+            console.log(athleteList[0].options[0].maxlifts.bench)
+            console.log(athleteList[0].options[0].maxlifts.squat)
+            console.log(athleteList[0].options[0].maxlifts.deadlift)
         }
         catch(error){
             console.error("Error:", error)
@@ -38,7 +46,6 @@ function SearchPage(){
                 <button id="addAthlete" onClick={handleAdd}>Add</button>
                 <br/>
                 <button id="submit" type="submit">Submit</button>
-                {name}
             </form>
         </div>
     )
