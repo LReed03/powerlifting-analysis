@@ -10,8 +10,7 @@ CORS(app)
 def fetchAthleteInfo(name):
     url = f'https://www.openpowerlifting.org/u/{name}'
     r = requests.get(url)
-
-
+    
     soup = BeautifulSoup(r.content, 'html.parser')
     name = soup.find("h1").text.strip()
     gender = name[-3:]
