@@ -3,9 +3,31 @@ import React, { useState } from "react";
 function SearchPage(){
     const [name, setName] = useState("");
     const [athleteList, setAthleteList] = useState([]);
+    const [maxSquat, setMaxSquat] = useState(0)
+    const [maxBench, setMaxBench] = useState(0)
+    const [maxDeadlift, setMaxDeadlift] = useState(0)
 
     const addAthlete = (athlete) => {
         setAthleteList(prevList => [...prevList, athlete]);
+    }
+
+
+    const checkMaxSquat = (squat) => {
+        if(squat > maxSquat){
+            setMaxSquat(squat)
+        }
+    }
+
+    const checkMaxBench = (bench) => {
+        if(bench > maxBench){
+            setMaxBench(bench)
+        }
+    }
+
+    const checkMaxDeadlift = (deadlift) => {
+        if(deadlift > maxDeadlift){
+            setMaxDeadlift(deadlift)
+        }
     }
 
     async function handleAdd(event){
@@ -22,6 +44,9 @@ function SearchPage(){
 
             const data = await response.json();
             addAthlete(data)
+            checkMaxSquat(data.options[0].maxlift.squat)
+            checkMaxBench(data.options[0].maxlift.bench)
+            checkMaxDeadlift(data.options[0].maxlift.deadlift)
             console.log(data.name)
             console.log(athleteList[0].options[0].maxlifts.bench)
             console.log(athleteList[0].options[0].maxlifts.squat)
@@ -47,6 +72,9 @@ function SearchPage(){
                 <br/>
                 <button id="submit" type="submit">Submit</button>
             </form>
+            {maxSquat}
+            {maxBench}
+            {maxDeadlift}
         </div>
     )
 }
