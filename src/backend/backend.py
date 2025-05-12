@@ -38,7 +38,8 @@ def fetchAthleteInfo(name):
             mostRecentCompetition = cols[4].text.strip()
             results.append({
                     'location': mostRecentLocation,
-                    'competition': mostRecentCompetition
+                    'competition': mostRecentCompetition,
+                    'index': str(i)
                 })
         return jsonify({'name': name, 'options':results})
 

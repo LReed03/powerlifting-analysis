@@ -4,9 +4,11 @@ import NameList from "./NameList";
 function SearchPage(){
     const [name, setName] = useState("");
     const [athleteList, setAthleteList] = useState([]);
-    const [maxSquat, setMaxSquat] = useState(0)
-    const [maxBench, setMaxBench] = useState(0)
-    const [maxDeadlift, setMaxDeadlift] = useState(0)
+    const [maxSquat, setMaxSquat] = useState(0);
+    const [maxBench, setMaxBench] = useState(0);
+    const [maxDeadlift, setMaxDeadlift] = useState(0);
+    const [lifterDisam, setLifterDisam] = useState(false);
+    const [liferDisamList, setLifterDisamList] = useState([])
 
     const addAthlete = (athlete) => {
         setAthleteList(prevList => [...prevList, athlete]);
@@ -34,6 +36,11 @@ function SearchPage(){
         }
     }
 
+    function handleLiferDisam(event){
+        event.preventDefault();
+        
+    }
+
     async function handleAdd(event){
         event.preventDefault();
         const backendEndpoint = `http://127.0.0.1:5000/${name}`;
@@ -54,6 +61,10 @@ function SearchPage(){
                 checkMaxBench(data.options[0].maxlifts.bench)
                 checkMaxDeadlift(data.options[0].maxlifts.deadlift)
                 console.log(data.name)
+            }
+            if(data.options.length > 1){
+                setLifterDisam(true);
+                setLifterDisamList(data)
             }
 
         }
