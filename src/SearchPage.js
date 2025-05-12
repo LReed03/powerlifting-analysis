@@ -47,12 +47,15 @@ function SearchPage(){
             });
 
             const data = await response.json();
-            addAthlete(data)
             console.log(data)
-            checkMaxSquat(data.options[0].maxlifts.squat)
-            checkMaxBench(data.options[0].maxlifts.bench)
-            checkMaxDeadlift(data.options[0].maxlifts.deadlift)
-            console.log(data.name)
+            if(data.options.length == 1){
+                addAthlete(data)
+                checkMaxSquat(data.options[0].maxlifts.squat)
+                checkMaxBench(data.options[0].maxlifts.bench)
+                checkMaxDeadlift(data.options[0].maxlifts.deadlift)
+                console.log(data.name)
+            }
+
         }
         catch(error){
             console.error("Error:", error)
