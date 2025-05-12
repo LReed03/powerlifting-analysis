@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import NameList from "./NameList";
 
 function SearchPage(){
     const [name, setName] = useState("");
@@ -13,18 +14,21 @@ function SearchPage(){
 
 
     const checkMaxSquat = (squat) => {
+        squat = parseFloat(squat)
         if(squat > maxSquat){
             setMaxSquat(squat)
         }
     }
 
     const checkMaxBench = (bench) => {
+        bench = parseFloat(bench)
         if(bench > maxBench){
             setMaxBench(bench)
         }
     }
 
     const checkMaxDeadlift = (deadlift) => {
+        deadlift = parseFloat(deadlift)
         if(deadlift > maxDeadlift){
             setMaxDeadlift(deadlift)
         }
@@ -44,13 +48,11 @@ function SearchPage(){
 
             const data = await response.json();
             addAthlete(data)
-            checkMaxSquat(data.options[0].maxlift.squat)
-            checkMaxBench(data.options[0].maxlift.bench)
-            checkMaxDeadlift(data.options[0].maxlift.deadlift)
+            console.log(data)
+            checkMaxSquat(data.options[0].maxlifts.squat)
+            checkMaxBench(data.options[0].maxlifts.bench)
+            checkMaxDeadlift(data.options[0].maxlifts.deadlift)
             console.log(data.name)
-            console.log(athleteList[0].options[0].maxlifts.bench)
-            console.log(athleteList[0].options[0].maxlifts.squat)
-            console.log(athleteList[0].options[0].maxlifts.deadlift)
         }
         catch(error){
             console.error("Error:", error)
@@ -73,8 +75,11 @@ function SearchPage(){
                 <button id="submit" type="submit">Submit</button>
             </form>
             {maxSquat}
+            <br></br>
             {maxBench}
+            <br></br>
             {maxDeadlift}
+            <NameList athleteList = {athleteList}/>
         </div>
     )
 }
