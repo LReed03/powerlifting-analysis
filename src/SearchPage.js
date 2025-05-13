@@ -1,5 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect} from "react";
 import NameList from "./NameList";
+import ShowDisam from "./ShowDisam";
+import ErrorCode from "./ErrorCode";
 
 function SearchPage(){
     const [name, setName] = useState("");
@@ -9,7 +11,12 @@ function SearchPage(){
     const [maxDeadlift, setMaxDeadlift] = useState(0);
     const [lifterDisam, setLifterDisam] = useState(false);
     const [liferDisamList, setLifterDisamList] = useState([])
+    const [liferExist, setLifterExist] = useState(true);
 
+    useEffect(() => {
+        setLifterExist(true)
+    },[name])
+ 
     const addAthlete = (athlete) => {
         setAthleteList(prevList => [...prevList, athlete]);
     }
@@ -41,6 +48,7 @@ function SearchPage(){
         
     }
 
+
     async function handleAdd(event){
         event.preventDefault();
         const backendEndpoint = `http://127.0.0.1:5000/${name}`;
@@ -53,6 +61,10 @@ function SearchPage(){
   
             });
 
+            if(!response.ok){
+                setLifterExist(false)
+            }
+
             const data = await response.json();
             console.log(data)
             if(data.options.length == 1){
@@ -63,8 +75,8 @@ function SearchPage(){
                 console.log(data.name)
             }
             if(data.options.length > 1){
-                setLifterDisam(true);
                 setLifterDisamList(data)
+                setLifterDisam(true);
             }
 
         }
@@ -72,6 +84,26 @@ function SearchPage(){
             console.error("Error:", error)
         }
     }
+
+    async function handleSelect(selectedName) {
+        const backendEndpoint = `http://127.0.0.1:5000/${selectedName}`;
+        try {
+            const response = await fetch(backendEndpoint, {
+                method: "GET",
+                headers: { 'Content-Type': 'application/json' },
+            });
+
+            const data = await response.json();
+            addAthlete(data);
+            checkMaxSquat(data.options[0].maxlifts.squat);
+            checkMaxBench(data.options[0].maxlifts.bench);
+            checkMaxDeadlift(data.options[0].maxlifts.deadlift);
+            setLifterDisam(false);
+        } catch (error) {
+            console.error("Error:", error);
+        }
+    }
+
 
     function handleSubmit(event){
         event.preventDefault();
@@ -88,11 +120,13 @@ function SearchPage(){
                 <br/>
                 <button id="submit" type="submit">Submit</button>
             </form>
+            {liferExist ?  <div></div>: <ErrorCode/>}
             {maxSquat}
             <br></br>
             {maxBench}
             <br></br>
             {maxDeadlift}
+            {lifterDisam ? <ShowDisam athleteList={liferDisamList} onSelect={handleSelect}/> : <div></div>}
             <NameList athleteList = {athleteList}/>
         </div>
     )
