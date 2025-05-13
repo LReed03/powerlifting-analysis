@@ -2,6 +2,7 @@ from flask import Flask, jsonify
 from bs4 import BeautifulSoup
 from flask_cors import CORS
 import requests
+import math
 
 app = Flask(__name__)
 CORS(app)
@@ -28,8 +29,15 @@ def fetchAthleteInfo(name):
     if name and "disambiguation" in name.lower():
         name = soup.find("h2").text.strip()
         name = name[:-4]
+        if name and "#" in name.lower():
+            name = name[:-3]
         results = []
+        names = [tag.text.strip() for tag in soup.find_all("h2")]
         for i in range(len(tables)):
+            tempName = names[i]
+            index = tempName[-5:-4]
+            if index.isnumeric() == False:
+                index =  None
             lifterTable = tables[i]
             rows = lifterTable.find_all("tr")
             mostRecentRow = rows[1]
@@ -39,7 +47,7 @@ def fetchAthleteInfo(name):
             results.append({
                     'location': mostRecentLocation,
                     'competition': mostRecentCompetition,
-                    'index': str(i)
+                    'index': index
                 })
         return jsonify({'name': name, 'options':results})
 

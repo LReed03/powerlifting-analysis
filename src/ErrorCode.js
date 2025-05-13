@@ -1,9 +1,9 @@
 import React from "react";
 
-function ErrorCode(){
+function ErrorCode(props){
     return(
         <div>
-            <p>Lifter either doesnt exist, or has not competed yet</p>
+            {props.message}
         </div>
     )
 }

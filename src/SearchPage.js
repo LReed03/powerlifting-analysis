@@ -12,9 +12,11 @@ function SearchPage(){
     const [lifterDisam, setLifterDisam] = useState(false);
     const [liferDisamList, setLifterDisamList] = useState([])
     const [liferExist, setLifterExist] = useState(true);
+    const [message, setMessage] = useState("");
 
     useEffect(() => {
-        setLifterExist(true)
+        setLifterExist(true);
+
     },[name])
  
     const addAthlete = (athlete) => {
@@ -62,6 +64,7 @@ function SearchPage(){
             });
 
             if(!response.ok){
+                setMessage("This lifter either doesn't exist, the name was spelt wrong, or they have not competed in a meet yet")
                 setLifterExist(false)
             }
 
@@ -92,7 +95,11 @@ function SearchPage(){
                 method: "GET",
                 headers: { 'Content-Type': 'application/json' },
             });
-
+            if(!response.ok){
+                setMessage("There was an error selecting this lifter");
+                setLifterExist(false);
+                setLifterDisam(false);
+            }
             const data = await response.json();
             addAthlete(data);
             checkMaxSquat(data.options[0].maxlifts.squat);
@@ -120,11 +127,11 @@ function SearchPage(){
                 <br/>
                 <button id="submit" type="submit">Submit</button>
             </form>
-            {liferExist ?  <div></div>: <ErrorCode/>}
+            {liferExist ?  <div></div>: <ErrorCode message={message}/>}
             {maxSquat}
-            <br></br>
+            <br/>
             {maxBench}
-            <br></br>
+            <br/>
             {maxDeadlift}
             {lifterDisam ? <ShowDisam athleteList={liferDisamList} onSelect={handleSelect}/> : <div></div>}
             <NameList athleteList = {athleteList}/>

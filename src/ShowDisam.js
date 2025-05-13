@@ -7,8 +7,9 @@ function ShowDisam(props){
             {props.athleteList.options.map((athlete) => (
             <div>
                 Competition: {athlete.competition} Location: {athlete.location}
+                {athlete.index}
 
-                <button type="button" onClick={(e) => props.onSelect(props.athleteList.name.replaceAll(" ","").concat(athlete.index))}>Select</button>
+                <button type="button" onClick={() => props.onSelect(props.athleteList.name.replaceAll(" ","").concat(athlete.index))}>Select</button>
                 <br></br>
             </div>
         ))}</div>
