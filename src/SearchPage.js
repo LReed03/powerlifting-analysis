@@ -150,7 +150,8 @@ function SearchPage(){
             </form>
             {liferExist ?  <div></div>: <ErrorCode message={message}/>}
             {lifterDisam ? <ShowDisam athleteList={liferDisamList} onSelect={handleSelect}/> : <div></div>}
-            <NameList athleteList = {athleteList}/>
+            {athleteList.length > 0 && (
+            <NameList athleteList={athleteList} />)}
         </div>
     )
 }

@@ -1,0 +1,24 @@
+.name-list {
+  margin: 20px auto;
+  padding: 20px;
+  max-width: 500px;
+  background-color: #f4f4f4;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.name-item {
+  background-color: #ffffff;
+  padding: 5px;
+  margin: 8px 0;
+  border-radius: 6px;
+  font-size: 16px;
+  color: #333;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+  transition: background-color 0.2s;
+  text-align: center;
+}
+
+.name-item:hover {
+  background-color: #eaf3ff;
+}

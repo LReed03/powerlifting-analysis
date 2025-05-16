@@ -1,12 +1,13 @@
 import React from "react";
+import './NameList.css';
 
 function NameList(props){
 
     return(
-        <div>{props.athleteList.map((athlete) => (
-            <div>
+        <div className="name-list">
+            {props.athleteList.map((athlete) => (
+            <div className="name-item" key={athlete.name}>
                 <p>{athlete.name}</p>
-                <br></br>
             </div>
         ))}</div>
     )
