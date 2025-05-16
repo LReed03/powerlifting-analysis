@@ -8,6 +8,7 @@ function NameList(props){
             {props.athleteList.map((athlete) => (
             <div className="name-item" key={athlete.name}>
                 <p>{athlete.name}</p>
+                <p>  Total: {athlete.options[0].maxlifts.total}kg</p>
             </div>
         ))}</div>
     )
