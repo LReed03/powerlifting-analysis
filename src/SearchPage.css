@@ -1,0 +1,60 @@
+.formContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 30px;
+  margin: 50px auto;
+  max-width: 400px;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  background-color: #f9f9f9;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.formContainer label {
+  font-weight: bold;
+  margin-bottom: 8px;
+  font-size: 16px;
+  color: #333;
+}
+
+.formContainer input {
+  padding: 10px;
+  width: 100%;
+  margin-bottom: 16px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 15px;
+  transition: border-color 0.2s;
+}
+
+.formContainer input:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+.formContainer button {
+  padding: 10px 20px;
+  margin: 8px 4px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 15px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.formContainer button:hover {
+  background-color: #0056b3;
+}
+
+
+body{
+    background-color: rgb(65, 63, 63);
+}
+
+#athleteSearch{
+    border-radius: 10px;
+}

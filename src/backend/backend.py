@@ -24,6 +24,11 @@ def fetchAthleteInfo(name):
     mostRecentRow = rows[1]
     cols = mostRecentRow.find_all("td")
     mostRecentLocation = cols[3].text.strip()
+    totalTable = tables[0]
+    totalRows = totalTable.find_all("tr")
+    totalRow = totalRows[1]
+    totalCols = totalRow.find_all("td")
+    total = totalCols[4].text.strip()
         
 
     if name and "disambiguation" in name.lower():
@@ -54,7 +59,8 @@ def fetchAthleteInfo(name):
     name = name[:-4]
     return jsonify({'name': name if name else 'No name found', 'options': [{'maxlifts' : {'squat': maxSquat,
     'bench': maxBench,
-    'deadlift': maxDL},
+    'deadlift': maxDL,
+    'total': total},
     'location': mostRecentLocation,
     'gender': gender
     }]

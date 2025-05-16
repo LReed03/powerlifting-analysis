@@ -1,8 +1,9 @@
 import React from "react";
+import './ErrorCode.css'
 
 function ErrorCode(props){
     return(
-        <div>
+        <div className="error-message">
             {props.message}
         </div>
     )

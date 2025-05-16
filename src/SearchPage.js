@@ -2,6 +2,7 @@ import React, { useState, useEffect} from "react";
 import NameList from "./NameList";
 import ShowDisam from "./ShowDisam";
 import ErrorCode from "./ErrorCode";
+import './SearchPage.css'
 
 function SearchPage(){
     const [name, setName] = useState("");
@@ -9,6 +10,7 @@ function SearchPage(){
     const [maxSquat, setMaxSquat] = useState(0);
     const [maxBench, setMaxBench] = useState(0);
     const [maxDeadlift, setMaxDeadlift] = useState(0);
+    const [maxTotal, setMaxTotal] = useState(0);
     const [lifterDisam, setLifterDisam] = useState(false);
     const [liferDisamList, setLifterDisamList] = useState([])
     const [liferExist, setLifterExist] = useState(true);
@@ -45,14 +47,28 @@ function SearchPage(){
         }
     }
 
-    function handleLiferDisam(event){
-        event.preventDefault();
-        
+    const checkMaxTotal = (total) => {
+        total = parseFloat(total)
+        if(total > maxTotal){
+            setMaxTotal(total)
+        }
     }
+
+    const sortByTotal = () => {
+        const sorted = [...athleteList].sort((a,b) => b.options[0].maxlifts.total - a.options[0].maxlifts.total)
+        setAthleteList(sorted)
+    }
+
 
 
     async function handleAdd(event){
         event.preventDefault();
+        setLifterExist(true);
+        if(name == ""){
+            setMessage("Lifter name cannot be blank");
+            setLifterExist(false);
+            return;
+        }
         const backendEndpoint = `http://127.0.0.1:5000/${name}`;
         try{
             const response = await fetch(backendEndpoint, {
@@ -75,6 +91,7 @@ function SearchPage(){
                 checkMaxSquat(data.options[0].maxlifts.squat)
                 checkMaxBench(data.options[0].maxlifts.bench)
                 checkMaxDeadlift(data.options[0].maxlifts.deadlift)
+                checkMaxTotal(data.options[0].maxlifts.total)
                 console.log(data.name)
             }
             if(data.options.length > 1){
@@ -105,6 +122,7 @@ function SearchPage(){
             checkMaxSquat(data.options[0].maxlifts.squat);
             checkMaxBench(data.options[0].maxlifts.bench);
             checkMaxDeadlift(data.options[0].maxlifts.deadlift);
+            checkMaxTotal(data.options[0].maxlifts.total)
             setLifterDisam(false);
         } catch (error) {
             console.error("Error:", error);
@@ -114,6 +132,7 @@ function SearchPage(){
 
     function handleSubmit(event){
         event.preventDefault();
+        sortByTotal()
     }
 
     
@@ -121,18 +140,15 @@ function SearchPage(){
     return(
         <div>
             <form onSubmit={handleSubmit}>
-                <label for="athletSearch">Enter Athletes Name: </label>
-                <input id="athleteSearch" onChange={(e) => setName(e.target.value.replaceAll(" ",""))}></input>
-                <button id="addAthlete" onClick={handleAdd}>Add</button>
-                <br/>
-                <button id="submit" type="submit">Submit</button>
+                <div className="formContainer">
+                    <label for="athleteSearch">Enter Athletes Name: </label>
+                    <input id="athleteSearch" onChange={(e) => setName(e.target.value.replaceAll(" ",""))}></input>
+                    <button id="addAthlete" onClick={handleAdd}>Add</button>
+                    <br/>
+                    <button id="submit" type="submit">Submit</button>
+                </div>
             </form>
             {liferExist ?  <div></div>: <ErrorCode message={message}/>}
-            {maxSquat}
-            <br/>
-            {maxBench}
-            <br/>
-            {maxDeadlift}
             {lifterDisam ? <ShowDisam athleteList={liferDisamList} onSelect={handleSelect}/> : <div></div>}
             <NameList athleteList = {athleteList}/>
         </div>
