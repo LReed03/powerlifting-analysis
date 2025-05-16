@@ -18,7 +18,6 @@ function SearchPage(){
 
     useEffect(() => {
         setLifterExist(true);
-
     },[name])
  
     const addAthlete = (athlete) => {
@@ -87,6 +86,18 @@ function SearchPage(){
             const data = await response.json();
             console.log(data)
             if(data.options.length == 1){
+                if (
+                athleteList.some(
+                    lifter =>
+                    lifter.name === data.name &&
+                    JSON.stringify(lifter.options) === JSON.stringify(data.options)
+                )
+                ) {
+                setMessage("This lifter is already in the list");
+                setLifterExist(false);
+                return;
+                }
+
                 addAthlete(data)
                 checkMaxSquat(data.options[0].maxlifts.squat)
                 checkMaxBench(data.options[0].maxlifts.bench)
@@ -117,7 +128,20 @@ function SearchPage(){
                 setLifterExist(false);
                 setLifterDisam(false);
             }
+            
             const data = await response.json();
+            if (
+                athleteList.some(
+                    lifter =>
+                    lifter.name === data.name &&
+                    JSON.stringify(lifter.options) === JSON.stringify(data.options)
+                )
+                ) {
+                setMessage("This lifter is already in the list");
+                setLifterExist(false);
+                setLifterDisam(false)
+                return;
+                }
             addAthlete(data);
             checkMaxSquat(data.options[0].maxlifts.squat);
             checkMaxBench(data.options[0].maxlifts.bench);
@@ -130,7 +154,7 @@ function SearchPage(){
     }
 
 
-    function handleSubmit(event){
+    function handleSort(event){
         event.preventDefault();
         sortByTotal()
     }
@@ -139,13 +163,13 @@ function SearchPage(){
 
     return(
         <div>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSort}>
                 <div className="formContainer">
                     <label for="athleteSearch">Enter Athletes Name: </label>
                     <input id="athleteSearch" onChange={(e) => setName(e.target.value.replaceAll(" ",""))}></input>
                     <button id="addAthlete" onClick={handleAdd}>Add</button>
                     <br/>
-                    <button id="submit" type="submit">Submit</button>
+                    <button id="submit" type="submit">Sort</button>
                 </div>
             </form>
             {liferExist ?  <div></div>: <ErrorCode message={message}/>}
