@@ -2,6 +2,7 @@ import React, { useState, useEffect} from "react";
 import NameList from "./NameList";
 import ShowDisam from "./ShowDisam";
 import ErrorCode from "./ErrorCode";
+import AddLifter from "./AddLifter";
 import './SearchPage.css'
 
 function SearchPage(){
@@ -169,6 +170,7 @@ function SearchPage(){
                     <button id="clear" onClick={clear}>Clear</button>
                 </div>
             </form>
+            <AddLifter/>
             {liferExist ?  <div></div>: <ErrorCode message={message}/>}
             {lifterDisam ? <ShowDisam athleteList={liferDisamList} onSelect={handleSelect}/> : <div></div>}
             {athleteList.length > 0 && (
