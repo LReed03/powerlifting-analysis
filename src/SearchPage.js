@@ -157,7 +157,8 @@ function SearchPage(){
         sortByTotal()
     }
 
-    function toggleCreateLifter(){
+    function toggleCreateLifter(event){
+        event.preventDefault();
         setCreateLifter(true)
     }
 
