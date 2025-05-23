@@ -16,9 +16,11 @@ function SearchPage(){
     const [liferDisamList, setLifterDisamList] = useState([])
     const [liferExist, setLifterExist] = useState(true);
     const [message, setMessage] = useState("");
+    const [createLifter, setCreateLifter] = useState(false);
 
     useEffect(() => {
         setLifterExist(true);
+        setCreateLifter(false)
     },[name])
  
     const addAthlete = (athlete) => {
@@ -155,6 +157,10 @@ function SearchPage(){
         sortByTotal()
     }
 
+    function toggleCreateLifter(){
+        setCreateLifter(true)
+    }
+
     
 
     return(
@@ -168,9 +174,11 @@ function SearchPage(){
                     <button id="submit" type="submit">Sort</button>
                     <br/>
                     <button id="clear" onClick={clear}>Clear</button>
+                    <br/>
+                    <button id="create-lifter" onClick={toggleCreateLifter}>Create Lifter</button>
                 </div>
             </form>
-            <AddLifter athleteList = {athleteList} setAthleteList={setAthleteList} setLifterExist = {setLifterExist} setMessage={setMessage}/>
+            {createLifter ? <AddLifter athleteList = {athleteList} setAthleteList={setAthleteList} setLifterExist = {setLifterExist} setMessage={setMessage}/> : <div></div>}
             {liferExist ?  <div></div>: <ErrorCode message={message}/>}
             {lifterDisam ? <ShowDisam athleteList={liferDisamList} onSelect={handleSelect}/> : <div></div>}
             {athleteList.length > 0 && (
