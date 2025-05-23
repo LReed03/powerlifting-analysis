@@ -170,7 +170,7 @@ function SearchPage(){
                     <button id="clear" onClick={clear}>Clear</button>
                 </div>
             </form>
-            <AddLifter/>
+            <AddLifter athleteList = {athleteList} setAthleteList={setAthleteList} setLifterExist = {setLifterExist} setMessage={setMessage}/>
             {liferExist ?  <div></div>: <ErrorCode message={message}/>}
             {lifterDisam ? <ShowDisam athleteList={liferDisamList} onSelect={handleSelect}/> : <div></div>}
             {athleteList.length > 0 && (
