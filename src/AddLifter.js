@@ -57,6 +57,21 @@ function AddLifter(props){
         let dl = parseFloat(deadlift);
         let total = s + b + dl;
         setTotal(total);
+        let athlete = {'name': name, 'options':[{'maxlifts': {'squat': squat, 'bench': bench, 'deadlift': deadlift, 'total': total}, 'location': "N/A", 'gender': "N/A"}]}
+        for(let i = 0; i < props.athleteList.length; i++){
+                if(athlete.name === props.athleteList[i].name){
+                    props.setMessage("This lifter is already in the list");
+                    props.setLifterExist(false);
+                    props.setCreateLifter(false)
+                    return;
+                }
+            }
+        addAthlete(athlete);
+        props.setCreateLifter(false)
+    }
+
+    const addAthlete = (athlete) => {
+        props.setAthleteList(prevList => [...prevList, athlete]);
     }
     
     return(

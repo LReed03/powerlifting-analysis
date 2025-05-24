@@ -20,7 +20,7 @@ function SearchPage(){
 
     useEffect(() => {
         setLifterExist(true);
-        setCreateLifter(false)
+        setCreateLifter(false);
     },[name])
  
     const addAthlete = (athlete) => {
@@ -67,8 +67,7 @@ function SearchPage(){
 
 
 
-    async function handleAdd(event){
-        event.preventDefault();
+    async function handleAdd(){
         setLifterExist(true);
         if(name == ""){
             setMessage("Lifter name cannot be blank");
@@ -152,34 +151,30 @@ function SearchPage(){
     }
 
 
-    function handleSort(event){
-        event.preventDefault();
+    function handleSort(){
         sortByTotal()
     }
 
-    function toggleCreateLifter(event){
-        event.preventDefault();
-        setCreateLifter(true)
+    function toggleCreateLifter(){
+        setCreateLifter(!createLifter)
     }
 
     
 
     return(
         <div>
-            <form onSubmit={handleSort}>
-                <div className="formContainer">
-                    <label for="athleteSearch">Enter Athletes Name: </label>
-                    <input id="athleteSearch" onChange={(e) => setName(e.target.value.replaceAll(" ",""))}></input>
-                    <button id="addAthlete" onClick={handleAdd}>Add</button>
-                    <br/>
-                    <button id="submit" type="submit">Sort</button>
-                    <br/>
-                    <button id="clear" onClick={clear}>Clear</button>
-                    <br/>
-                    <button id="create-lifter" onClick={toggleCreateLifter}>Create Lifter</button>
-                </div>
-            </form>
-            {createLifter ? <AddLifter athleteList = {athleteList} setAthleteList={setAthleteList} setLifterExist = {setLifterExist} setMessage={setMessage}/> : <div></div>}
+            <div className="formContainer">
+                <label for="athleteSearch">Enter Athletes Name: </label>
+                <input id="athleteSearch" onChange={(e) => setName(e.target.value.replaceAll(" ",""))}></input>
+                <button id="addAthlete" onClick={handleAdd}>Add</button>
+                <br/>
+                <button id="sort" onClick={handleSort}>Sort</button>
+                <br/>
+                <button id="clear" onClick={clear}>Clear</button>
+                <br/>
+                <button id="create-lifter" onClick={toggleCreateLifter}>Create Lifter</button>
+            </div>
+            {createLifter ? <AddLifter athleteList = {athleteList} setAthleteList={setAthleteList} setLifterExist = {setLifterExist} setMessage={setMessage} setCreateLifter={setCreateLifter}/> : <div></div>}
             {liferExist ?  <div></div>: <ErrorCode message={message}/>}
             {lifterDisam ? <ShowDisam athleteList={liferDisamList} onSelect={handleSelect}/> : <div></div>}
             {athleteList.length > 0 && (
