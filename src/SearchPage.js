@@ -1,4 +1,4 @@
-import React, { useState, useEffect} from "react";
+import React, { useState, useEffect, useRef} from "react";
 import NameList from "./NameList";
 import ShowDisam from "./ShowDisam";
 import ErrorCode from "./ErrorCode";
@@ -18,11 +18,20 @@ function SearchPage(){
     const [liferExist, setLifterExist] = useState(true);
     const [message, setMessage] = useState("");
     const [createLifter, setCreateLifter] = useState(false);
+    const addLifterRef = useRef(null)
 
     useEffect(() => {
         setLifterExist(true);
         setCreateLifter(false);
     },[name])
+
+    useEffect(() => {
+        if (createLifter && addLifterRef.current) {
+        addLifterRef.current.scrollIntoView({
+            behavior: 'smooth',
+            block: 'center',
+        });
+        }}, [createLifter]);
  
     const addAthlete = (athlete) => {
         setAthleteList(prevList => [...prevList, athlete]);
@@ -181,9 +190,11 @@ function SearchPage(){
                 <br/>
                 <button id="create-lifter" onClick={toggleCreateLifter}>Create Lifter</button>
             </div>
-            {createLifter ? <AddLifter athleteList = {athleteList} setAthleteList={setAthleteList} setLifterExist = {setLifterExist} setMessage={setMessage} setCreateLifter={setCreateLifter}
-            maxSquat = {maxSquat} setMaxSquat = {setMaxSquat} maxBench = {maxBench} setMaxBench = {setMaxBench} maxDeadlift = {maxDeadlift} setMaxDeadlift = {setMaxDeadlift}
-            maxTotal = {maxTotal} setMaxTotal = {setMaxTotal}/> : <div></div>}
+            {createLifter ? <div ref={addLifterRef}>
+                <AddLifter athleteList = {athleteList} setAthleteList={setAthleteList} setLifterExist = {setLifterExist} setMessage={setMessage} setCreateLifter={setCreateLifter}
+                maxSquat = {maxSquat} setMaxSquat = {setMaxSquat} maxBench = {maxBench} setMaxBench = {setMaxBench} maxDeadlift = {maxDeadlift} setMaxDeadlift = {setMaxDeadlift}
+                maxTotal = {maxTotal} setMaxTotal = {setMaxTotal}/>
+            </div> : <div></div>}
             {liferExist ?  <div></div>: <ErrorCode message={message}/>}
             {lifterDisam ? <ShowDisam athleteList={liferDisamList} onSelect={handleSelect}/> : <div></div>}
             {athleteList.length > 0 && (
