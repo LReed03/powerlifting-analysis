@@ -3,6 +3,7 @@ import NameList from "./NameList";
 import ShowDisam from "./ShowDisam";
 import ErrorCode from "./ErrorCode";
 import AddLifter from "./AddLifter";
+import HighestLifts from "./HighestLifts";
 import './SearchPage.css'
 
 function SearchPage(){
@@ -163,6 +164,7 @@ function SearchPage(){
 
     return(
         <div>
+            <HighestLifts maxSquat = {maxSquat} maxBench = {maxBench} maxDeadlift = {maxDeadlift} maxTotal = {maxTotal}/>
             <div className="formContainer">
                 <label for="athleteSearch">Enter Athletes Name: </label>
                 <input id="athleteSearch" onChange={(e) => setName(e.target.value.replaceAll(" ",""))}></input>
@@ -174,7 +176,9 @@ function SearchPage(){
                 <br/>
                 <button id="create-lifter" onClick={toggleCreateLifter}>Create Lifter</button>
             </div>
-            {createLifter ? <AddLifter athleteList = {athleteList} setAthleteList={setAthleteList} setLifterExist = {setLifterExist} setMessage={setMessage} setCreateLifter={setCreateLifter}/> : <div></div>}
+            {createLifter ? <AddLifter athleteList = {athleteList} setAthleteList={setAthleteList} setLifterExist = {setLifterExist} setMessage={setMessage} setCreateLifter={setCreateLifter}
+            maxSquat = {maxSquat} setMaxSquat = {setMaxSquat} maxBench = {maxBench} setMaxBench = {setMaxBench} maxDeadlift = {maxDeadlift} setMaxDeadlift = {setMaxDeadlift}
+            maxTotal = {maxTotal} setMaxTotal = {setMaxTotal}/> : <div></div>}
             {liferExist ?  <div></div>: <ErrorCode message={message}/>}
             {lifterDisam ? <ShowDisam athleteList={liferDisamList} onSelect={handleSelect}/> : <div></div>}
             {athleteList.length > 0 && (

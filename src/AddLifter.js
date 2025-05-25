@@ -46,6 +46,35 @@ function AddLifter(props){
         return true;
     }
 
+    
+    const checkMaxSquat = (squat) => {
+        squat = parseFloat(squat)
+        if(squat > props.maxSquat){
+            props.setMaxSquat(squat)
+        }
+    }
+
+    const checkMaxBench = (bench) => {
+        bench = parseFloat(bench)
+        if(bench > props.maxBench){
+            props.setMaxBench(bench)
+        }
+    }
+
+    const checkMaxDeadlift = (deadlift) => {
+        deadlift = parseFloat(deadlift)
+        if(deadlift > props.maxDeadlift){
+            props.setMaxDeadlift(deadlift)
+        }
+    }
+
+    const checkMaxTotal = (total) => {
+        total = parseFloat(total)
+        if(total > props.maxTotal){
+            props.setMaxTotal(total)
+        }
+    }
+
     function handleAdd(){
         if(!checkDeadlift() || !checkBench() || !checkSquat() ||!checkName()){
             props.setMessage("This lifter either doesn't exist, the name was spelt wrong, or they have not competed in a meet yet")
@@ -66,6 +95,10 @@ function AddLifter(props){
                     return;
                 }
             }
+        checkMaxBench(bench)
+        checkMaxSquat(squat)
+        checkMaxDeadlift(deadlift)
+        checkMaxTotal(total)
         addAthlete(athlete);
         props.setCreateLifter(false)
     }
