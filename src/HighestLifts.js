@@ -9,10 +9,10 @@ function HighestLifts(props) {
       <div className="grid-item">Highest Deadlift</div>
       <div className="grid-item">Highest Total</div>
 
-      <div className="grid-item">{props.maxSquat}</div>
-      <div className="grid-item">{props.maxBench}</div>
-      <div className="grid-item">{props.maxDeadlift}</div>
-      <div className="grid-item">{props.maxTotal}</div>
+      <div className="grid-item">{props.maxSquat} Kg</div>
+      <div className="grid-item">{props.maxBench} Kg</div>
+      <div className="grid-item">{props.maxDeadlift} Kg</div>
+      <div className="grid-item">{props.maxTotal} Kg</div>
     </div>
   );
 }
