@@ -63,6 +63,10 @@ function SearchPage(){
     }
 
     const clear = () => {
+        setMaxBench(0)
+        setMaxSquat(0)
+        setMaxDeadlift(0)
+        setMaxTotal(0)
         setAthleteList([])
     }
 
@@ -146,7 +150,8 @@ function SearchPage(){
             checkMaxDeadlift(data.options[0].maxlifts.deadlift);
             checkMaxTotal(data.options[0].maxlifts.total)
             setLifterDisam(false);
-        } catch (error) {
+        } 
+        catch (error) {
             console.error("Error:", error);
         }
     }
