@@ -46,6 +46,35 @@ function AddLifter(props){
         return true;
     }
 
+    
+    const checkMaxSquat = (squat) => {
+        squat = parseFloat(squat)
+        if(squat > props.maxSquat){
+            props.setMaxSquat(squat)
+        }
+    }
+
+    const checkMaxBench = (bench) => {
+        bench = parseFloat(bench)
+        if(bench > props.maxBench){
+            props.setMaxBench(bench)
+        }
+    }
+
+    const checkMaxDeadlift = (deadlift) => {
+        deadlift = parseFloat(deadlift)
+        if(deadlift > props.maxDeadlift){
+            props.setMaxDeadlift(deadlift)
+        }
+    }
+
+    const checkMaxTotal = (total) => {
+        total = parseFloat(total)
+        if(total > props.maxTotal){
+            props.setMaxTotal(total)
+        }
+    }
+
     function handleAdd(){
         if(!checkDeadlift() || !checkBench() || !checkSquat() ||!checkName()){
             props.setMessage("This lifter either doesn't exist, the name was spelt wrong, or they have not competed in a meet yet")
@@ -57,6 +86,25 @@ function AddLifter(props){
         let dl = parseFloat(deadlift);
         let total = s + b + dl;
         setTotal(total);
+        let athlete = {'name': name, 'options':[{'maxlifts': {'squat': squat, 'bench': bench, 'deadlift': deadlift, 'total': total}, 'location': "N/A", 'gender': "N/A"}]}
+        for(let i = 0; i < props.athleteList.length; i++){
+                if(athlete.name === props.athleteList[i].name){
+                    props.setMessage("This lifter is already in the list");
+                    props.setLifterExist(false);
+                    props.setCreateLifter(false)
+                    return;
+                }
+            }
+        checkMaxBench(bench)
+        checkMaxSquat(squat)
+        checkMaxDeadlift(deadlift)
+        checkMaxTotal(total)
+        addAthlete(athlete);
+        props.setCreateLifter(false)
+    }
+
+    const addAthlete = (athlete) => {
+        props.setAthleteList(prevList => [...prevList, athlete]);
     }
     
     return(

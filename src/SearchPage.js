@@ -1,8 +1,9 @@
-import React, { useState, useEffect} from "react";
+import React, { useState, useEffect, useRef} from "react";
 import NameList from "./NameList";
 import ShowDisam from "./ShowDisam";
 import ErrorCode from "./ErrorCode";
 import AddLifter from "./AddLifter";
+import HighestLifts from "./HighestLifts";
 import './SearchPage.css'
 
 function SearchPage(){
@@ -17,11 +18,20 @@ function SearchPage(){
     const [liferExist, setLifterExist] = useState(true);
     const [message, setMessage] = useState("");
     const [createLifter, setCreateLifter] = useState(false);
+    const addLifterRef = useRef(null)
 
     useEffect(() => {
         setLifterExist(true);
-        setCreateLifter(false)
+        setCreateLifter(false);
     },[name])
+
+    useEffect(() => {
+        if (createLifter && addLifterRef.current) {
+        addLifterRef.current.scrollIntoView({
+            behavior: 'smooth',
+            block: 'center',
+        });
+        }}, [createLifter]);
  
     const addAthlete = (athlete) => {
         setAthleteList(prevList => [...prevList, athlete]);
@@ -62,13 +72,16 @@ function SearchPage(){
     }
 
     const clear = () => {
+        setMaxBench(0)
+        setMaxSquat(0)
+        setMaxDeadlift(0)
+        setMaxTotal(0)
         setAthleteList([])
     }
 
 
 
-    async function handleAdd(event){
-        event.preventDefault();
+    async function handleAdd(){
         setLifterExist(true);
         if(name == ""){
             setMessage("Lifter name cannot be blank");
@@ -146,40 +159,42 @@ function SearchPage(){
             checkMaxDeadlift(data.options[0].maxlifts.deadlift);
             checkMaxTotal(data.options[0].maxlifts.total)
             setLifterDisam(false);
-        } catch (error) {
+        } 
+        catch (error) {
             console.error("Error:", error);
         }
     }
 
 
-    function handleSort(event){
-        event.preventDefault();
+    function handleSort(){
         sortByTotal()
     }
 
-    function toggleCreateLifter(event){
-        event.preventDefault();
-        setCreateLifter(true)
+    function toggleCreateLifter(){
+        setCreateLifter(!createLifter)
     }
 
     
 
     return(
         <div>
-            <form onSubmit={handleSort}>
-                <div className="formContainer">
-                    <label for="athleteSearch">Enter Athletes Name: </label>
-                    <input id="athleteSearch" onChange={(e) => setName(e.target.value.replaceAll(" ",""))}></input>
-                    <button id="addAthlete" onClick={handleAdd}>Add</button>
-                    <br/>
-                    <button id="submit" type="submit">Sort</button>
-                    <br/>
-                    <button id="clear" onClick={clear}>Clear</button>
-                    <br/>
-                    <button id="create-lifter" onClick={toggleCreateLifter}>Create Lifter</button>
-                </div>
-            </form>
-            {createLifter ? <AddLifter athleteList = {athleteList} setAthleteList={setAthleteList} setLifterExist = {setLifterExist} setMessage={setMessage}/> : <div></div>}
+            <HighestLifts maxSquat = {maxSquat} maxBench = {maxBench} maxDeadlift = {maxDeadlift} maxTotal = {maxTotal}/>
+            <div className="formContainer">
+                <label for="athleteSearch">Enter Athletes Name: </label>
+                <input id="athleteSearch" onChange={(e) => setName(e.target.value.replaceAll(" ",""))}></input>
+                <button id="addAthlete" onClick={handleAdd}>Add</button>
+                <br/>
+                <button id="sort" onClick={handleSort}>Sort</button>
+                <br/>
+                <button id="clear" onClick={clear}>Clear</button>
+                <br/>
+                <button id="create-lifter" onClick={toggleCreateLifter}>Create Lifter</button>
+            </div>
+            {createLifter ? <div ref={addLifterRef}>
+                <AddLifter athleteList = {athleteList} setAthleteList={setAthleteList} setLifterExist = {setLifterExist} setMessage={setMessage} setCreateLifter={setCreateLifter}
+                maxSquat = {maxSquat} setMaxSquat = {setMaxSquat} maxBench = {maxBench} setMaxBench = {setMaxBench} maxDeadlift = {maxDeadlift} setMaxDeadlift = {setMaxDeadlift}
+                maxTotal = {maxTotal} setMaxTotal = {setMaxTotal}/>
+            </div> : <div></div>}
             {liferExist ?  <div></div>: <ErrorCode message={message}/>}
             {lifterDisam ? <ShowDisam athleteList={liferDisamList} onSelect={handleSelect}/> : <div></div>}
             {athleteList.length > 0 && (
